@@ -13,7 +13,7 @@
 #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
                        } while (0)
 
-typedef struct timer_info_s
+typedef struct timer_info_s				//struct to hold timer specific data
 {
   timer_t* timerID;
   int timer_enabled;  
