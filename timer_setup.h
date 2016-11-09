@@ -13,18 +13,18 @@
 #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
                        } while (0)
 
-typedef struct timer_info_s				//struct to hold timer specific data
+typedef struct timer_info_s									//struct to hold timer specific data
 {
-  timer_t* timerID;
-  int timer_enabled;  
-  void (*timerspecific_handler)();
+  timer_t* timerID;						
+  int timer_enabled;  					
+  void (*timerspecific_handler)();							//This is where the callback function is stored
 }timer_info_t;
 
-
-void timer_init(void);
-static void handler(int, siginfo_t*, void*);
-void setup_sigaction(struct sigaction*, sigset_t*);
-void timercreate(timer_t*, struct sigevent*, void (*handler)(int, siginfo_t*, void*), timer_info_t*);
-void timer_start(struct itimerspec*, timer_t*, float, int);
-void timer_info_init(timer_info_t*, void (*timer_handler)());
-int start_timer(void (*timerspecific_handler)(void), float, int);
+static void handler(int sig, siginfo_t *si, void *uc);
+void setup_sigaction(struct sigaction* sa, sigset_t* mask);
+void timercreate(timer_t* timerid, struct sigevent* sev, void (* handler)(int, siginfo_t*, void*), timer_info_t* timer_info);
+void timer_start(struct itimerspec* its, timer_t* timerid, float freq, int mode);
+void timer_info_init(timer_info_t* timer_info, void (* timer_handler)());
+void start_timer(void (*timerspecific_handler)(void), float freq, int mode);			//callback, freq, mode
+																						//mode = 0 => one shot
+																						//mode = 1 => periodic timer

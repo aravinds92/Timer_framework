@@ -1,11 +1,5 @@
 #include "timer_setup.h"
 
-int count;
-
-void timer_init()
-{
-	count = -1;
-}
 
 static void handler(int sig, siginfo_t *si, void *uc)
 {
@@ -74,10 +68,9 @@ void timer_info_init(timer_info_t* timer_info, void (* timer_handler)())
 	//timer_info->timer_enabled = 1;
 }
 
-int start_timer(void (*timerspecific_handler)(void), float freq, int mode)		//Create structures and call functions to setup the signal handling and signal masks.
+void start_timer(void (*timerspecific_handler)(void), float freq, int mode)		//Create structures and call functions to setup the signal handling and signal masks.
 																				//Create and start timer
 {
-	count++;				//Count of number of timers created
 	timer_t timerid;		//timer
 	struct sigevent sev;	//Asyncronous event properties
 	struct itimerspec its;	//To Setup timer frequence
@@ -92,5 +85,4 @@ int start_timer(void (*timerspecific_handler)(void), float freq, int mode)		//Cr
 	timercreate(&timerid, &sev, &handler, timer_info);     //Create the timer
 	timer_start(&its, &timerid, freq, mode);               //Start the timer
 
-	return count;	
 }

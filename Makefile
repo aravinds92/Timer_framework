@@ -1,6 +1,7 @@
 all: objs
-	gcc -Itimer_setup.h *.o -o obj -lrt
+	gcc *.o -o obj -lrt
 	rm -rf *.o
+	./obj
 objs:
 	gcc -c timer_setup.c -lrt
 	gcc -c example_timer.c -lrt
